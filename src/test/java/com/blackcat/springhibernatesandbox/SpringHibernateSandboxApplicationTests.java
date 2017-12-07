@@ -18,40 +18,49 @@ import static org.junit.Assert.assertEquals;
 @DataJpaTest
 public class SpringHibernateSandboxApplicationTests {
 
-	@Autowired
-	private BeachRepository beachRepository;
+    @Autowired
+    private BeachRepository beachRepository;
 
-	@Test
-	public void manyToAnyTests() {
-		Ball ball = new Ball();
-		ball.setName("Stripy beach ball");
-		ball.setBounciness(5);
+    @Test
+    public void delete() {
+        Beach beach = new Beach();
+        beachRepository.save(beach);
 
-		Parasol parasol = new Parasol();
-		parasol.setName("Tattered parasol");
-		parasol.setOpacity(0.3);
+        Beach notSaved = new Beach();
+        beachRepository.delete(notSaved);
+    }
 
-		Bucket bucket = new Bucket();
-		bucket.setName("Bucket full of sand");
-		bucket.setFullOfSand(true);
+    @Test
+    public void manyToAnyTests() {
+        Ball ball = new Ball();
+        ball.setName("Stripy beach ball");
+        ball.setBounciness(5);
 
-		Beach beach = new Beach();
-		beach.setName("World's Best Beach(tm)");
-		beach.setBalls(Collections.singletonList(ball));
-		beach.setBuckets(Collections.singletonList(bucket));
-		beach.setParasols(Collections.singletonList(parasol));
+        Parasol parasol = new Parasol();
+        parasol.setName("Tattered parasol");
+        parasol.setOpacity(0.3);
 
-		beachRepository.save(beach);
+        Bucket bucket = new Bucket();
+        bucket.setName("Bucket full of sand");
+        bucket.setFullOfSand(true);
 
-		System.out.println("Beach created!");
+        Beach beach = new Beach();
+        beach.setName("World's Best Beach(tm)");
+        beach.setBalls(Collections.singletonList(ball));
+        beach.setBuckets(Collections.singletonList(bucket));
+        beach.setParasols(Collections.singletonList(parasol));
 
-		assertEquals(beach, beachRepository.findByItemId(ball.getId()));
+        beachRepository.save(beach);
 
-		System.out.println("Beach found!");
+        System.out.println("Beach created!");
 
-		assertEquals(ball, beach.getBalls().get(0));
-		assertEquals(parasol, beach.getParasols().get(0));
-		assertEquals(bucket, beach.getBuckets().get(0));
-	}
+        assertEquals(beach, beachRepository.findByItemId(ball.getId()));
+
+        System.out.println("Beach found!");
+
+        assertEquals(ball, beach.getBalls().get(0));
+        assertEquals(parasol, beach.getParasols().get(0));
+        assertEquals(bucket, beach.getBuckets().get(0));
+    }
 
 }

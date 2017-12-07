@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BeachRepository extends CrudRepository<Beach, Long> {
 
-	@Query("select b from Beach b join fetch b.items i where :id = i.id")
-	Beach findByItemId(@Param("id") Long id);
+    @Query("select b from Beach b join fetch b.items i where :id = i.id")
+    Beach findByItemId(@Param("id") Long id);
 }
